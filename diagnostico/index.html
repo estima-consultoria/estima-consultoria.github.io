@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estima Consultoria Patrimonial — Diagnóstico Patrimonial & IPS (Brasil e Exterior)</title>
+  <style>
+    :root {
+      --navy: #1B365D;
+      --navy-dark: #10223E;
+      --navy-light: #2A4B7C;
+      --bronze: #B8965A;
+      --bronze-light: #E8DCC4;
+      --cream: #F8F6F1;
+      --ice: #F1F5F9;
+      --card: #FFFFFF;
+      --text: #1E293B;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --success: #166534;
+      --success-bg: #DCFCE7;
+      --warn: #92400E;
+      --warn-bg: #FEF3C7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header.topbar {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+      color: #fff;
+      padding: 28px 20px 24px;
+      border-bottom: 4px solid var(--bronze);
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .brand-eyebrow {
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--bronze-light);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    header p.subtitle {
+      margin: 0;
+      font-size: 15px;
+      color: #E2E8F0;
+      max-width: 760px;
+    }
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: #CBD5E1;
+    }
+    .meta-pill {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(184,150,90,0.45);
+    }
+    .progress-wrap {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.05);
+    }
+    .steps-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .step-btn {
+      flex: 1 1 auto;
+      background: var(--ice);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .step-btn.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .step-btn.done {
+      border-color: var(--bronze);
+      color: var(--navy);
+      background: #FDFBF7;
+    }
+    .progress-bar-outer {
+      height: 6px;
+      background: var(--ice);
+      border-radius: 999px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--navy), var(--bronze));
+      width: 14%;
+      transition: width 0.25s ease;
+    }
+    main {
+      padding: 24px 20px 60px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+    .callout {
+      background: #FDFBF7;
+      border-left: 4px solid var(--bronze);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+    .callout-ice {
+      background: var(--ice);
+      border-left: 4px solid var(--navy);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 10px 0 16px;
+      font-size: 13.5px;
+      color: #334155;
+    }
+    h2.sec-title {
+      margin-top: 0;
+      color: var(--navy);
+      font-family: Georgia, serif;
+      font-size: 21px;
+      border-bottom: 2px solid var(--bronze-light);
+      padding-bottom: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+    label.field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+    input.text-input, select.text-input, textarea.text-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+    }
+    input.text-input:focus, select.text-input:focus, textarea.text-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 2px rgba(27,54,93,0.15);
+    }
+    .q-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .q-badge {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .q-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin: 0;
+    }
+    .opt-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .opt-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: #fff;
+    }
+    .opt-card:hover {
+      border-color: var(--bronze);
+      background: #FFFEFA;
+    }
+    .opt-card.selected {
+      border-color: var(--navy);
+      background: #F0F5FA;
+      box-shadow: 0 2px 6px rgba(27,54,93,0.08);
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--ice);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      border: 1px solid #CBD5E1;
+    }
+    .opt-card.selected .opt-letter {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .opt-body {
+      flex: 1;
+    }
+    .opt-text {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .opt-hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .obs-toggle {
+      margin-top: 12px;
+    }
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .btn {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--navy-light);
+    }
+    .btn-bronze {
+      background: var(--bronze);
+      color: #fff;
+    }
+    .btn-outline {
+      background: #fff;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin-top: 12px;
+    }
+    .summary-table th {
+      background: var(--navy);
+      color: #fff;
+      text-align: left;
+      padding: 9px 12px;
+    }
+    .summary-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .summary-table tr:nth-child(even) {
+      background: #F8FAFC;
+    }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .kpi-box {
+      background: var(--ice);
+      border-top: 3px solid var(--navy);
+      padding: 14px;
+      border-radius: 8px;
+    }
+    .kpi-label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .kpi-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="brand-eyebrow">Estima Consultoria Patrimonial</div>
+    <h1>Diagnóstico Patrimonial &amp; Política de Investimentos (IPS)</h1>
+    <p class="subtitle">Um guia simples e sem jargões para desenharmos, juntos, a arquitetura do seu patrimônio no Brasil e no Exterior.</p>
+    <div class="meta-strip">
+      <span class="meta-pill">Consultor Responsável: Luiz Henrique Rodrigues Estima (CVM 19/2021 · ANBIMA CEA)</span>
+      <span class="meta-pill">Padrão Internacional CFA Institute</span>
+      <span class="meta-pill">Sigilo Absoluto &amp; LGPD</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="container">
+    <div class="steps-nav" id="stepsNav"></div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <div id="stepContainer"></div>
+</main>
+
+<footer>
+  <strong>Estima Consultoria Patrimonial</strong> · New Horizon Ltda. (CNPJ 68.937.595/0001-40)<br/>
+  Luiz Henrique Rodrigues Estima é consultor de valores mobiliários pessoa natural autorizado pela CVM (Resolução CVM 19). Autorização da pessoa jurídica em andamento · Porto Alegre, RS<br/>
+  luiz@estimaconsultoria.com.br · +55 51 99913-6302 · <em>Este diagnóstico é exclusivo para planejamento e não constitui oferta nem recomendação de valores mobiliários.</em>
+</footer>
+
+<script>
+const QUESTIONS = [{"num": 1, "code": "Q1", "module": "A", "module_title": "Momento de Vida, Família e Objetivos", "short_title": "Missão do patrimônio", "title": "Qual é a principal missão do seu patrimônio hoje?", "why": "Investir bem começa por saber para que serve o dinheiro. A missão define tudo o que vem depois — inclusive o quanto vale a pena arriscar.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Já vivo, ou quero viver em breve, da renda dos investimentos — com total tranquilidade", "hint": "Prioridade: renda previsível e segurança.", "pts": 1}, "B": {"text": "Proteger o padrão de vida da família e garantir segurança caso algo aconteça comigo", "hint": "Prioridade: proteção e reservas sólidas.", "pts": 2}, "C": {"text": "Equilibrar: retirar alguma renda e, ao mesmo tempo, fazer o patrimônio crescer", "hint": "Prioridade: equilíbrio entre hoje e amanhã.", "pts": 2}, "D": {"text": "Organizar a sucessão e deixar um patrimônio bem estruturado para filhos e netos", "hint": "Prioridade: legado, longo prazo e organização.", "pts": 3}, "E": {"text": "Continuo gerando renda alta no meu trabalho ou empresa e quero multiplicar o capital no longo prazo", "hint": "Prioridade: crescimento.", "pts": 3}}}, {"num": 2, "code": "Q2", "module": "A", "module_title": "Momento de Vida, Família e Objetivos", "short_title": "Horizonte de tempo", "title": "Por quanto tempo você pretende deixar a maior parte desse patrimônio trabalhando antes de precisar usar o valor principal?", "why": "Quanto mais tempo o dinheiro pode ficar investido, mais tranquilamente ele atravessa os altos e baixos naturais dos mercados.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Vou precisar de uma parte importante do valor principal em até 3 anos", "hint": "Aciona segregação de liquidez de curto prazo (Trava T3).", "pts": 1}, "B": {"text": "Entre 3 e 10 anos", "hint": "Horizonte intermediário.", "pts": 2}, "C": {"text": "Mais de 10 anos — quero que o patrimônio me dê fôlego com folga até os 90–95 anos", "hint": "Horizonte longo de sustentação vitalícia.", "pts": 3}, "D": {"text": "É um patrimônio para preservar e passar aos filhos e netos — praticamente não pretendo consumir o principal", "hint": "Horizonte multigeracional / legado.", "pts": 3}, "E": {"text": "Ainda não sei dizer", "hint": "Tudo bem: vamos construir essa resposta juntos na devolutiva.", "pts": 2}}}, {"num": 3, "code": "Q3", "module": "A", "module_title": "Momento de Vida, Família e Objetivos", "short_title": "Dependentes financeiros", "title": "Quem depende financeiramente de você hoje ou nos próximos anos?", "why": "Pessoas que contam com você mudam o tamanho da reserva necessária e o nível de proteção que o planejamento precisa ter.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Apenas eu, ou o casal", "hint": null, "pts": 3}, "B": {"text": "Filhos em idade escolar ou na faculdade", "hint": null, "pts": 2}, "C": {"text": "Apoio financeiro a pais idosos ou a outros familiares", "hint": null, "pts": 2}, "D": {"text": "Filhos e pais (ou outros familiares) ao mesmo tempo", "hint": null, "pts": 1}, "E": {"text": "A família toda já é financeiramente independente, inclusive os filhos adultos", "hint": null, "pts": 3}}}, {"num": 4, "code": "Q4", "module": "B", "module_title": "Renda, Custo de Vida e Reserva de Tranquilidade no Brasil", "short_title": "Renda × gastos mensais", "title": "Hoje, como funciona a relação entre o que você ganha e o que a família gasta por mês?", "why": "Considere tudo o que entra (trabalho, empresa, aposentadoria, aluguéis) e tudo o que sai. Isso mostra se o patrimônio está sendo construído ou se já está sustentando a família.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Sobra dinheiro todos os meses e eu invisto a diferença", "hint": "Geração de poupança recorrente.", "pts": 3}, "B": {"text": "Empata — ganho mais ou menos o que gasto", "hint": "Fluxo neutro.", "pts": 2}, "C": {"text": "Já retiro um complemento mensal dos investimentos para fechar as contas", "hint": "Fase de complementação de renda.", "pts": 2}, "D": {"text": "Vivo integralmente dos rendimentos da carteira de investimentos", "hint": "Fase de usufruto pleno do patrimônio.", "pts": 1}}}, {"num": 5, "code": "Q5", "module": "B", "module_title": "Renda, Custo de Vida e Reserva de Tranquilidade no Brasil", "short_title": "Taxa de retirada anual", "title": "Se você já retira (ou planeja retirar em breve) dinheiro da carteira, quanto isso representa por ano do seu patrimônio financeiro?", "why": "Essa é uma das medidas mais importantes de sustentabilidade. Não precisa ser exato — use os exemplos abaixo, calculados para uma carteira de R$ 5 milhões, como régua.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Até 2% ao ano", "hint": "Exemplo: até R$ 100 mil por ano (cerca de R$ 8 mil por mês em R$ 5 mi).", "pts": 3}, "B": {"text": "Entre 2% e 4% ao ano", "hint": "Exemplo: de R$ 100 mil a R$ 200 mil por ano (cerca de R$ 8 mil a R$ 17 mil por mês).", "pts": 2}, "C": {"text": "Entre 4% e 6% ao ano", "hint": "Exemplo: de R$ 200 mil a R$ 300 mil por ano (cerca de R$ 17 mil a R$ 25 mil por mês).", "pts": 1}, "D": {"text": "Acima de 6% ao ano", "hint": "Exemplo: mais de R$ 300 mil por ano (mais de R$ 25 mil por mês). Aciona Trava T1.", "pts": 1}, "E": {"text": "Ainda não retiro nada da carteira", "hint": "Fase pura de acumulação/reinvestimento.", "pts": 3}}}, {"num": 6, "code": "Q6", "module": "B", "module_title": "Renda, Custo de Vida e Reserva de Tranquilidade no Brasil", "short_title": "Reserva segura no Brasil", "title": "Por quantos anos as despesas da família no Brasil estariam cobertas apenas com o dinheiro em aplicações seguras e fáceis de resgatar aqui no Brasil?", "why": "Pense em aplicações como CDB de liquidez diária, Tesouro Selic ou fundos DI. Uma boa reserva no Brasil é o que permite que o dinheiro de longo prazo — inclusive o do exterior — nunca precise ser vendido às pressas.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Menos de 1 ano", "hint": "Aciona Trava T2: prioridade inicial é recompor liquidez onshore.", "pts": 1}, "B": {"text": "Entre 1 e 2 anos", "hint": "Reserva intermediária.", "pts": 2}, "C": {"text": "Entre 2 e 3 anos", "hint": "Reserva adequada segundo o padrão CFA (24 a 36 meses).", "pts": 3}, "D": {"text": "Mais de 3 anos — total folga", "hint": "Colchão de liquidez amplo em reais.", "pts": 3}, "E": {"text": "Não sei dizer ao certo", "hint": "Sem problema: conseguimos calcular pelos seus extratos.", "pts": 2}}}, {"num": 7, "code": "Q7", "module": "B", "module_title": "Renda, Custo de Vida e Reserva de Tranquilidade no Brasil", "short_title": "Eventos em até 3 anos", "title": "Você prevê algum gasto grande, projeto especial ou entrada importante de dinheiro nos próximos 3 anos?", "why": "Compromissos conhecidos precisam estar reservados com antecedência, para que não dependam do humor do mercado no dia em que o dinheiro for necessário.", "multi": true, "dimension": "Capacidade", "options": {"A": {"text": "Compra ou reforma de imóvel", "hint": "Compromisso de desembolso.", "pts": 2}, "B": {"text": "Faculdade, intercâmbio ou moradia de filhos no exterior", "hint": "Compromisso educacional / moeda forte.", "pts": 2}, "C": {"text": "Quitação de financiamento ou de dívida", "hint": "Redução de passivo.", "pts": 2}, "D": {"text": "Ajuda financeira aos filhos (casamento, imóvel, início de negócio)", "hint": "Apoio familiar programado.", "pts": 2}, "E": {"text": "Entrada de recursos: venda de imóvel ou empresa, herança, bônus relevante", "hint": "Evento de liquidez positiva.", "pts": 3}, "F": {"text": "Nenhum gasto ou entrada relevante previsto", "hint": "Sem desembolsos extraordinários no curto prazo.", "pts": 3}}}, {"num": 8, "code": "Q8", "module": "C", "module_title": "Recursos no Exterior e Relação com o Dólar", "short_title": "Papel do exterior (USD)", "title": "Qual é, para você, o verdadeiro papel do dinheiro que está (ou estará) investido fora do Brasil?", "why": "O mesmo dólar pode cumprir funções muito diferentes: proteção, crescimento ou pagamento de despesas futuras. Saber o papel evita frustrações e decisões contraditórias.", "multi": false, "dimension": "Disposição", "options": {"A": {"text": "É meu seguro patrimonial e proteção contra crises no Brasil — não quero correr grandes riscos lá fora", "hint": "Foco em preservação em moeda forte.", "pts": 1}, "B": {"text": "Quero proteção em moeda forte e também buscar crescimento em grandes empresas globais no longo prazo", "hint": "Diversificação geográfica e prêmio acionário global.", "pts": 3}, "C": {"text": "Serve para pagar gastos futuros da família em dólar — viagens, filhos morando fora, saúde", "hint": "Casamento de passivo em moeda forte.", "pts": 2}, "D": {"text": "Ainda tenho pouco ou nada lá fora e quero estruturar do zero, com segurança", "hint": "Construção gradual da parcela internacional.", "pts": 2}}}, {"num": 9, "code": "Q9", "module": "C", "module_title": "Recursos no Exterior e Relação com o Dólar", "short_title": "Estrutura offshore atual", "title": "Como estão organizados hoje os seus recursos fora do Brasil?", "why": "A forma como a conta foi aberta muda a tributação, a sucessão e até a declaração ao Banco Central. Se não souber, não se preocupe — verificamos para você.", "multi": false, "dimension": "Contexto", "options": {"A": {"text": "Conta em nome pessoal, ou conta conjunta com o cônjuge", "hint": "Atenção a ETFs UCITS irlandeses para proteção contra US Estate Tax.", "pts": null}, "B": {"text": "Empresa no exterior (offshore / PIC) ou trust já constituído", "hint": "Estrutura societária/fiduciária internacional.", "pts": null}, "C": {"text": "Fundos internacionais comprados por banco ou corretora no Brasil", "hint": "Veículos locais com exposição cambial/internacional.", "pts": null}, "D": {"text": "Ainda não enviei recursos para o exterior", "hint": "Estruturação inicial a definir.", "pts": null}, "E": {"text": "Não tenho certeza de como a conta foi aberta", "hint": "Revisão cadastral e sucessória recomendada.", "pts": null}}}, {"num": 10, "code": "Q10", "module": "C", "module_title": "Recursos no Exterior e Relação com o Dólar", "short_title": "Moeda mental e CDI", "title": "Quando o dólar cai no Brasil (por exemplo, de R$ 5,60 para R$ 5,00), mas seus investimentos em dólar continuam inteiros lá fora, qual é a sua sensação?", "why": "Essa pergunta revela em qual moeda você “pensa” o seu patrimônio. Não há resposta melhor — ela apenas nos ajuda a calibrar como mostrar os resultados para você.", "multi": false, "dimension": "Disposição", "options": {"A": {"text": "Fico tranquilo(a): penso nessa parcela em dólar e sei que é proteção de longo prazo", "hint": "Moeda mental bimonetária madura.", "pts": 3}, "B": {"text": "Me incomoda um pouco ver o valor menor quando converto tudo para reais", "hint": "Sensibilidade moderada à variação cambial no curto prazo.", "pts": 2}, "C": {"text": "Fico muito desconfortável quando o resultado do ano fica abaixo da renda fixa do Brasil (CDI)", "hint": "Forte âncora mental no CDI em reais.", "pts": 1}, "D": {"text": "Não costumo acompanhar isso / não sei dizer", "hint": "Acompanhamento neutro.", "pts": 2}}}, {"num": 11, "code": "Q11", "module": "D", "module_title": "Comportamento em Momentos de Crise", "short_title": "Histórico em crises", "title": "Lembrando de momentos difíceis que você já viveu — a pandemia em 2020, crises políticas no Brasil ou quedas fortes das bolsas lá fora —, o que você fez, na prática, com seus investimentos?", "why": "O que fizemos em crises passadas diz mais sobre nós do que qualquer teoria. Seja sincero(a): isso nos ajuda a proteger você de decisões tomadas no susto.", "multi": false, "dimension": "Disposição", "options": {"A": {"text": "Não mexi em nada e segui a minha rotina", "hint": "Disciplina comportamental comprovada.", "pts": 3}, "B": {"text": "Fiquei preocupado(a) e preferi passar parte para aplicações mais conservadoras", "hint": "Sensibilidade elevada a perdas temporárias.", "pts": 1}, "C": {"text": "Aproveitei os preços baixos para comprar mais", "hint": "Perfil contracíclico / comprador em quedas.", "pts": 3}, "D": {"text": "Não acompanhava de perto, ou só tinha renda fixa conservadora e imóveis", "hint": "Tolerância a volatilidade ainda não testada em mercado (Trava T5).", "pts": 2}}}, {"num": 12, "code": "Q12", "module": "D", "module_title": "Comportamento em Momentos de Crise", "short_title": "Queda máxima tolerável (peso 2×)", "title": "Imagine R$ 5 milhões (ou US$ 1 milhão) investidos e, num ano ruim nos mercados mundiais, o extrato mostra uma queda temporária. A partir de que ponto isso tiraria o seu sono a ponto de querer vender para “parar de perder”?", "why": "Quedas temporárias fazem parte de qualquer investimento de longo prazo. O importante é que a carteira nunca ultrapasse o limite que você consegue atravessar com serenidade.", "multi": false, "dimension": "Disposição (Peso 2×)", "options": {"A": {"text": "Prefiro praticamente não ver saldo negativo no extrato", "hint": "Aciona Trava T4: prioridade máxima à estabilidade nominal.", "pts": 1}, "B": {"text": "Qualquer queda acima de 5%", "hint": "Cerca de R$ 250 mil em R$ 5 milhões (ou US$ 50 mil em US$ 1 milhão).", "pts": 1}, "C": {"text": "Uma queda em torno de 10% a 15%", "hint": "Cerca de R$ 500 mil a R$ 750 mil (ou US$ 100 mil a US$ 150 mil).", "pts": 2}, "D": {"text": "Aguento quedas temporárias de 20% ou mais na parte de ações, desde que a minha reserva no Brasil esteja intacta", "hint": "Cerca de R$ 1 milhão (ou US$ 200 mil) ou mais, apenas na parcela de ações.", "pts": 3}}}, {"num": 13, "code": "Q13", "module": "D", "module_title": "Comportamento em Momentos de Crise", "short_title": "Protocolo Dry Powder", "title": "Se deixarmos uma reserva em dólar separada para aproveitar grandes “promoções” nas bolsas mundiais (quedas de 20% ou 30%), você ficaria confortável com uma regra combinada previamente para comprarmos aos poucos nessas quedas?", "why": "Decisões combinadas com a cabeça fria costumam ser muito melhores do que decisões tomadas em meio ao pânico das manchetes.", "multi": false, "dimension": "Disposição", "options": {"A": {"text": "Sim — gosto de ter uma regra clara, decidida com calma e por escrito", "hint": "Habilita Protocolo Dry Powder sistemático por gatilhos.", "pts": 3}, "B": {"text": "Prefiro conversar na hora antes de qualquer movimento, mesmo com o mercado em pânico", "hint": "Protocolo Dry Powder no modo consultivo (validação prévia em até 48h).", "pts": 2}, "C": {"text": "Prefiro não aumentar ações em momentos de crise", "hint": "Sem gatilho automático de aumento de risco em crises.", "pts": 1}}}, {"num": 14, "code": "Q14", "module": "E", "module_title": "Trabalho, Empresa da Família e Preferências Pessoais", "short_title": "Origem da riqueza e risco Brasil", "title": "De onde vem a principal riqueza da sua família hoje — e qual é a ligação dela com a economia brasileira?", "why": "Se a sua renda já depende muito do Brasil, faz sentido que parte dos investimentos dependa de outras economias. É uma forma inteligente de não colocar todos os ovos na mesma cesta.", "multi": false, "dimension": "Capacidade", "options": {"A": {"text": "Empresa própria ou atividade profissional que depende 100% do Brasil", "hint": "Renda cíclica ligada ao Brasil — reforça papel diversificador do exterior.", "pts": 2}, "B": {"text": "Patrimônio já quase todo financeiro e imobiliário, sem renda de trabalho relevante", "hint": "Patrimônio financeiro é a fonte primária de sustento.", "pts": 1}, "C": {"text": "Renda estável de aposentadoria, serviço público ou aluguéis", "hint": "Piso de renda recorrente eleva a capacidade de absorver oscilações.", "pts": 3}, "D": {"text": "Negócios ou carreira com receita em dólar, euro ou outra moeda forte", "hint": "Geração natural de moeda forte.", "pts": 3}}}, {"num": 15, "code": "Q15", "module": "E", "module_title": "Trabalho, Empresa da Família e Preferências Pessoais", "short_title": "Incômodos atuais com bancos/corretoras", "title": "O que mais incomoda você hoje na forma como bancos e corretoras cuidam dos seus investimentos?", "why": "Queremos entender o que não está funcionando, para que a nossa consultoria resolva exatamente o que importa para você.", "multi": true, "dimension": "Contexto", "options": {"A": {"text": "Falta de uma visão única, somando Brasil e Exterior", "hint": null, "pts": null}, "B": {"text": "Sensação de “empurrão” de produtos que parecem bons só para o banco", "hint": null, "pts": null}, "C": {"text": "Excesso de trocas e movimentações sem explicação clara", "hint": null, "pts": null}, "D": {"text": "Falta de planejamento para sucessão e impostos", "hint": null, "pts": null}, "E": {"text": "Dificuldade de entender quanto realmente pago de taxas e quanto ganho acima da inflação", "hint": null, "pts": null}}}];
+const SAA_PROFILES = {"Conservador": {"label": "Conservador — Preservação & Renda Vitalícia", "short": "Conservador", "subtitle": "Preservação", "retorno_brl": "IPCA + 3,0% a 3,5% a.a.", "retorno_usd": "CPI EUA + 1,5% a 2,0% a.a.", "drawdown_max": "até −8%", "duration_max": "até 4,0 anos", "credito_max": "até 10% (exclusivamente High Grade AAA/AA)", "retirada_sustentavel": "até 3,5% a.a.", "onshore_pct": 65, "offshore_pct": 35, "rv_total_pct": 13, "classes": [{"nome": "Liquidez BR (Selic, CDI, LCI/LCA curtas)", "bloco": "Onshore", "alvo": 20, "banda": "16–25%", "min": 16, "max": 25}, {"nome": "Inflação BR (NTN-B, Tesouro IPCA+)", "bloco": "Onshore", "alvo": 30, "banda": "25–35%", "min": 25, "max": 35}, {"nome": "Pré e crédito high grade BR", "bloco": "Onshore", "alvo": 10, "banda": "5–15%", "min": 5, "max": 15}, {"nome": "Ações Brasil", "bloco": "Onshore", "alvo": 3, "banda": "0–5%", "min": 0, "max": 5}, {"nome": "Multimercados / alternativos BR", "bloco": "Onshore", "alvo": 2, "banda": "0–5%", "min": 0, "max": 5}, {"nome": "Liquidez USD (T-bills, fundos monetários)", "bloco": "Offshore", "alvo": 5, "banda": "3–8%", "min": 3, "max": 8}, {"nome": "Renda fixa global IG (Treasuries/TIPS ≤ 7 anos, UCITS)", "bloco": "Offshore", "alvo": 15, "banda": "12–20%", "min": 12, "max": 20}, {"nome": "Ações globais UCITS (desenvolvidos + emergentes)", "bloco": "Offshore", "alvo": 10, "banda": "7–13%", "min": 7, "max": 13}, {"nome": "Ouro e ativos reais", "bloco": "Offshore", "alvo": 5, "banda": "3–7%", "min": 3, "max": 7}, {"nome": "Crédito HY / ilíquidos", "bloco": "Offshore", "alvo": 0, "banda": "0–2%", "min": 0, "max": 2}]}, "Moderado": {"label": "Moderado — Equilíbrio Patrimonial Global (Defesa & Renda)", "short": "Moderado", "subtitle": "Defesa & Renda", "retorno_brl": "IPCA + 4,0% a 4,5% a.a.", "retorno_usd": "CPI EUA + 2,5% a 3,5% a.a.", "drawdown_max": "até −15%", "duration_max": "até 5,5 anos", "credito_max": "até 8% (restrito a grau de investimento High Grade)", "retirada_sustentavel": "até 4,0% a.a.", "onshore_pct": 53, "offshore_pct": 47, "rv_total_pct": 27, "classes": [{"nome": "Liquidez BR (Selic, CDI, LCI/LCA curtas)", "bloco": "Onshore", "alvo": 12, "banda": "10–15%", "min": 10, "max": 15}, {"nome": "Inflação BR (NTN-B, Tesouro IPCA+)", "bloco": "Onshore", "alvo": 25, "banda": "20–30%", "min": 20, "max": 30}, {"nome": "Pré e crédito high grade BR", "bloco": "Onshore", "alvo": 8, "banda": "5–12%", "min": 5, "max": 12}, {"nome": "Ações Brasil", "bloco": "Onshore", "alvo": 5, "banda": "2–8%", "min": 2, "max": 8}, {"nome": "Multimercados / alternativos BR", "bloco": "Onshore", "alvo": 3, "banda": "0–6%", "min": 0, "max": 6}, {"nome": "Liquidez USD (T-bills, fundos monetários)", "bloco": "Offshore", "alvo": 5, "banda": "3–8%", "min": 3, "max": 8}, {"nome": "Renda fixa global IG (Treasuries/TIPS ≤ 7 anos, UCITS)", "bloco": "Offshore", "alvo": 14, "banda": "10–18%", "min": 10, "max": 18}, {"nome": "Ações globais UCITS (desenvolvidos + emergentes)", "bloco": "Offshore", "alvo": 22, "banda": "18–26%", "min": 18, "max": 26}, {"nome": "Ouro e ativos reais", "bloco": "Offshore", "alvo": 6, "banda": "4–8%", "min": 4, "max": 8}, {"nome": "Crédito HY / ilíquidos", "bloco": "Offshore", "alvo": 0, "banda": "0–3%", "min": 0, "max": 3}]}, "Crescimento": {"label": "Crescimento — Acumulação & Crescimento Patrimonial Global", "short": "Crescimento", "subtitle": "Patrimonial", "retorno_brl": "IPCA + 5,0% a.a. ou mais", "retorno_usd": "CPI EUA + 4,0% a.a. ou mais", "drawdown_max": "até −25%", "duration_max": "até 6,0 anos", "credito_max": "até 5% no Brasil e até 4% global", "retirada_sustentavel": "até 4,5% a.a. ou reinvestimento integral", "onshore_pct": 38, "offshore_pct": 62, "rv_total_pct": 46, "classes": [{"nome": "Liquidez BR (Selic, CDI, LCI/LCA curtas)", "bloco": "Onshore", "alvo": 7, "banda": "5–10%", "min": 5, "max": 10}, {"nome": "Inflação BR (NTN-B, Tesouro IPCA+)", "bloco": "Onshore", "alvo": 15, "banda": "10–20%", "min": 10, "max": 20}, {"nome": "Pré e crédito high grade BR", "bloco": "Onshore", "alvo": 5, "banda": "0–8%", "min": 0, "max": 8}, {"nome": "Ações Brasil", "bloco": "Onshore", "alvo": 8, "banda": "5–12%", "min": 5, "max": 12}, {"nome": "Multimercados / alternativos BR", "bloco": "Onshore", "alvo": 3, "banda": "0–6%", "min": 0, "max": 6}, {"nome": "Liquidez USD (T-bills, fundos monetários)", "bloco": "Offshore", "alvo": 4, "banda": "2–6%", "min": 2, "max": 6}, {"nome": "Renda fixa global IG (Treasuries/TIPS ≤ 7 anos, UCITS)", "bloco": "Offshore", "alvo": 10, "banda": "6–14%", "min": 6, "max": 14}, {"nome": "Ações globais UCITS (desenvolvidos + emergentes)", "bloco": "Offshore", "alvo": 38, "banda": "32–44%", "min": 32, "max": 44}, {"nome": "Ouro e ativos reais", "bloco": "Offshore", "alvo": 6, "banda": "4–8%", "min": 4, "max": 8}, {"nome": "Crédito HY / ilíquidos", "bloco": "Offshore", "alvo": 4, "banda": "0–6%", "min": 0, "max": 6}]}};
+
+const STEPS = [
+  { id: "intro", label: "1. Início & Dados" },
+  { id: "modA", label: "2. Momento de Vida", mod: "A", title: "Módulo A — Momento de Vida, Família e Objetivos" },
+  { id: "modB", label: "3. Renda & Brasil", mod: "B", title: "Módulo B — Renda, Custo de Vida e Reserva no Brasil" },
+  { id: "modC", label: "4. Exterior & Dólar", mod: "C", title: "Módulo C — Recursos no Exterior e Relação com o Dólar" },
+  { id: "modD", label: "5. Crises & Risco", mod: "D", title: "Módulo D — Comportamento em Momentos de Crise" },
+  { id: "modE", label: "6. Negócios & Contas", mod: "E", title: "Módulo E — Trabalho, Empresa e Fotografia Rápida" },
+  { id: "result", label: "7. Conclusão & Envio" }
+];
+
+let currentStep = 0;
+let showConsultantPreview = false;
+
+const state = {
+  cliente: {
+    nome: "",
+    conjuge: "",
+    idade: "",
+    estado_civil: "",
+    email: "",
+    telefone: "",
+    cidade_uf: "Porto Alegre, RS",
+    profissao: "",
+    residencia_fiscal: "Brasil",
+    data_preenchimento: new Date().toLocaleDateString("pt-BR")
+  },
+  respostas: {
+    Q1: "C", Q2: "C", Q3: "A", Q4: "A", Q5: "B", Q6: "C",
+    Q7: ["F"], Q8: "B", Q9: "A", Q10: "B", Q11: "A", Q12: "C",
+    Q13: "A", Q14: "A", Q15: ["A", "D"]
+  },
+  observacoes: {},
+  fotografia: {
+    cambio: 5.60,
+    prefere_enviar_extratos: false,
+    inst_bancos_br: "",
+    faixa_bancos_br: "1m_5m",
+    valor_bancos_br_brl: "",
+    inst_exterior: "",
+    faixa_exterior_usd: "200k_1m",
+    valor_exterior_usd: "",
+    inst_previdencia: "",
+    faixa_previdencia: "ate_1m",
+    valor_previdencia_brl: "",
+    inst_imoveis: "",
+    faixa_imoveis: "1m_5m",
+    valor_imoveis_brl: "",
+    retirada_mensal_brl: ""
+  }
+};
+
+function renderNav() {
+  const nav = document.getElementById("stepsNav");
+  nav.innerHTML = STEPS.map((s, idx) => {
+    const cls = idx === currentStep ? "step-btn active" : (idx < currentStep ? "step-btn done" : "step-btn");
+    return `<button class="${cls}" onclick="goToStep(${idx})">${s.label}</button>`;
+  }).join("");
+  const pct = Math.round(((currentStep + 1) / STEPS.length) * 100);
+  document.getElementById("progressBar").style.width = pct + "%";
+}
+
+function goToStep(idx) {
+  currentStep = idx;
+  renderNav();
+  renderStep();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function selectOption(qCode, letter, isMulti) {
+  if (!isMulti) {
+    state.respostas[qCode] = letter;
+  } else {
+    let arr = Array.isArray(state.respostas[qCode]) ? [...state.respostas[qCode]] : [];
+    if (qCode === "Q7" && letter === "F") {
+      arr = ["F"];
+    } else {
+      if (qCode === "Q7") arr = arr.filter(x => x !== "F");
+      if (arr.includes(letter)) {
+        arr = arr.filter(x => x !== letter);
+      } else {
+        arr.push(letter);
+      }
+      if (arr.length === 0) arr = [letter];
+    }
+    state.respostas[qCode] = arr;
+  }
+  renderStep();
+}
+
+function evaluateEngine() {
+  const capQs = ["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q14"];
+  let capSum = 0;
+  const capPts = {};
+  capQs.forEach(qc => {
+    const q = QUESTIONS.find(x => x.code === qc);
+    const ans = Array.isArray(state.respostas[qc]) ? state.respostas[qc] : [state.respostas[qc]];
+    if (qc === "Q7") {
+      const expCount = ans.filter(l => ["A","B","C","D"].includes(l)).length;
+      capPts[qc] = expCount === 0 ? 3 : (expCount === 1 ? 2 : 1);
+    } else {
+      const sc = ans.map(l => (q.options[l] && q.options[l].pts) ? q.options[l].pts : 2);
+      capPts[qc] = Math.min(...sc);
+    }
+    capSum += capPts[qc];
+  });
+  let capClass = capSum <= 13 ? "BAIXA" : (capSum <= 18 ? "MODERADA" : "ALTA");
+
+  const dispQs = ["Q8","Q10","Q11","Q12","Q13"];
+  let dispSum = 0;
+  dispQs.forEach(qc => {
+    const q = QUESTIONS.find(x => x.code === qc);
+    const ans = Array.isArray(state.respostas[qc]) ? state.respostas[qc] : [state.respostas[qc]];
+    const sc = ans.map(l => (q.options[l] && q.options[l].pts) ? q.options[l].pts : 2);
+    const u = Math.min(...sc);
+    dispSum += (qc === "Q12" ? u * 2 : u);
+  });
+  let dispClass = dispSum <= 9 ? "BAIXA" : (dispSum <= 13 ? "MODERADA" : "ALTA");
+
+  const travas = [];
+  if (state.respostas.Q5 === "D") {
+    travas.push("T1 — Retirada anual > 6% (Capacidade travada em BAIXA)");
+    capClass = "BAIXA";
+  }
+  if (state.respostas.Q6 === "A") {
+    travas.push("T2 — Reserva líquida no Brasil < 1 ano (Capacidade limitada a MODERADA)");
+    if (capClass === "ALTA") capClass = "MODERADA";
+  }
+  if (state.respostas.Q2 === "A") {
+    travas.push("T3 — Uso relevante do principal em até 3 anos (Segregar bloco de curto prazo)");
+  }
+  if (state.respostas.Q12 === "A" || (state.respostas.Q11 === "B" && state.respostas.Q12 === "B")) {
+    travas.push("T4 — Aversão estrita a perda nominal (Disposição travada em BAIXA)");
+    dispClass = "BAIXA";
+  }
+  if (state.respostas.Q11 === "D") {
+    travas.push("T5 — Tolerância a crises ainda não testada (Entrada gradual em ações em 3–4 trimestres)");
+  }
+
+  const ord = { BAIXA: 0, MODERADA: 1, ALTA: 2 };
+  const inv = ["Conservador", "Moderado", "Crescimento"];
+  const effLvl = Math.min(ord[capClass], ord[dispClass]);
+  const perfilEfetivo = inv[effLvl];
+
+  let arquetipo = "Equilíbrio Patrimonial Global";
+  if ((capSum >= 19 && (dispClass === "BAIXA" || state.respostas.Q10 === "C")) || (ord[capClass] > ord[dispClass] && state.respostas.Q10 === "C")) {
+    arquetipo = "Alta Capacidade, Coração no CDI";
+  } else if (perfilEfetivo === "Conservador") {
+    arquetipo = "Preservação & Renda Vitalícia";
+  } else if (perfilEfetivo === "Crescimento") {
+    arquetipo = "Acumulação & Crescimento Global";
+  }
+
+  return { capSum, capClass, dispSum, dispClass, travas, perfilEfetivo, arquetipo, saa: SAA_PROFILES[perfilEfetivo] };
+}
+
+function renderStep() {
+  const box = document.getElementById("stepContainer");
+  const st = STEPS[currentStep];
+
+  if (st.id === "intro") {
+    box.innerHTML = `
+      <div class="card">
+        <h2 class="sec-title">Bem-vindo(a) ao seu Diagnóstico Patrimonial</h2>
+        <div class="callout">
+          <strong>Três combinados importantes antes de começar:</strong><br/>
+          1. <strong>Sem números exatos de cabeça:</strong> basta marcar a opção que mais se aproxima da sua realidade.<br/>
+          2. <strong>Sem resposta certa ou errada:</strong> o melhor plano é aquele que deixa você e sua família dormirem em paz.<br/>
+          3. <strong>Sigilo absoluto:</strong> nunca pedimos senhas nem números de conta.
+        </div>
+        <div class="grid-2">
+          <div>
+            <label class="field-label">Seu nome completo</label>
+            <input class="text-input" value="${state.cliente.nome}" oninput="state.cliente.nome=this.value" placeholder="Ex.: Dr. Carlos Eduardo Mendes" />
+          </div>
+          <div>
+            <label class="field-label">Cônjuge / Companheiro(a) (opcional)</label>
+            <input class="text-input" value="${state.cliente.conjuge}" oninput="state.cliente.conjuge=this.value" placeholder="Ex.: Helena Mendes" />
+          </div>
+          <div>
+            <label class="field-label">Sua idade aproximada</label>
+            <input class="text-input" value="${state.cliente.idade}" oninput="state.cliente.idade=this.value" placeholder="Ex.: 62 anos" />
+          </div>
+          <div>
+            <label class="field-label">Estado civil e regime de bens</label>
+            <input class="text-input" value="${state.cliente.estado_civil}" oninput="state.cliente.estado_civil=this.value" placeholder="Ex.: Casado — Comunhão parcial" />
+          </div>
+          <div>
+            <label class="field-label">E-mail principal</label>
+            <input class="text-input" value="${state.cliente.email}" oninput="state.cliente.email=this.value" placeholder="nome@exemplo.com.br" />
+          </div>
+          <div>
+            <label class="field-label">Telefone / WhatsApp</label>
+            <input class="text-input" value="${state.cliente.telefone}" oninput="state.cliente.telefone=this.value" placeholder="+55 51 99999-9999" />
+          </div>
+          <div>
+            <label class="field-label">Cidade / UF</label>
+            <input class="text-input" value="${state.cliente.cidade_uf}" oninput="state.cliente.cidade_uf=this.value" />
+          </div>
+          <div>
+            <label class="field-label">Atividade principal / Profissão</label>
+            <input class="text-input" value="${state.cliente.profissao}" oninput="state.cliente.profissao=this.value" placeholder="Ex.: Empresário / Médico / Aposentado" />
+          </div>
+        </div>
+        <div class="nav-row">
+          <span></span>
+          <button class="btn btn-primary" onclick="goToStep(1)">Começar as 15 Perguntas &rarr;</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (st.mod) {
+    const qs = QUESTIONS.filter(q => q.module === st.mod);
+    let html = `<div class="card"><h2 class="sec-title">${st.title}</h2>`;
+    qs.forEach(q => {
+      const curAns = state.respostas[q.code];
+      const optsHtml = Object.entries(q.options).map(([letter, o]) => {
+        const isSel = q.multi ? (Array.isArray(curAns) && curAns.includes(letter)) : (curAns === letter);
+        return `
+          <div class="opt-card ${isSel ? 'selected' : ''}" onclick="selectOption('${q.code}','${letter}',${q.multi})">
+            <div class="opt-letter">${letter}</div>
+            <div class="opt-body">
+              <div class="opt-text">${o.text}</div>
+              ${o.hint ? `<div class="opt-hint">${o.hint}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      html += `
+        <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+          <div class="q-header">
+            <span class="q-badge">Pergunta ${q.num} de 15</span>
+            <h3 class="q-title">${q.title}</h3>
+          </div>
+          <div class="callout-ice"><strong>Por que perguntamos isso?</strong> ${q.why} ${q.multi ? '<em>(Você pode marcar mais de uma opção)</em>' : ''}</div>
+          <div class="opt-list">${optsHtml}</div>
+          <div class="obs-toggle">
+            <input class="text-input" placeholder="Comentário opcional sobre esta pergunta (se quiser detalhar algo)..." value="${state.observacoes[q.code] || ''}" oninput="state.observacoes['${q.code}']=this.value" />
+          </div>
+        </div>
+      `;
+    });
+
+    if (st.mod === "E") {
+      html += `
+        <h3 style="color:var(--navy); font-family:Georgia,serif;">Fotografia Rápida das Contas (Opcional)</h3>
+        <div class="callout">
+          <strong>Não precisa preencher se não tiver de cabeça:</strong> se preferir, basta marcar abaixo que prefere enviar os últimos extratos em PDF, e a Estima organiza tudo para você.
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-weight:600;cursor:pointer;">
+          <input type="checkbox" ${state.fotografia.prefere_enviar_extratos ? 'checked' : ''} onchange="state.fotografia.prefere_enviar_extratos=this.checked; renderStep();" />
+          Prefiro apenas enviar os últimos extratos para o Luiz consolidar.
+        </label>
+        <div class="grid-2">
+          <div>
+            <label class="field-label">Bancos e Corretoras no Brasil (onde estão)</label>
+            <input class="text-input" value="${state.fotografia.inst_bancos_br}" oninput="state.fotografia.inst_bancos_br=this.value" placeholder="Ex.: Itaú, BTG, BB, XP" />
+          </div>
+          <div>
+            <label class="field-label">Valor aproximado no Brasil (R$)</label>
+            <input class="text-input" value="${state.fotografia.valor_bancos_br_brl}" oninput="state.fotografia.valor_bancos_br_brl=this.value" placeholder="Ex.: 3.500.000 (opcional)" />
+          </div>
+          <div>
+            <label class="field-label">Instituição no Exterior (EUA, Suíça, etc.)</label>
+            <input class="text-input" value="${state.fotografia.inst_exterior}" oninput="state.fotografia.inst_exterior=this.value" placeholder="Ex.: UBS, Schwab, Avenue, Morgan Stanley" />
+          </div>
+          <div>
+            <label class="field-label">Valor aproximado no Exterior (em US$)</label>
+            <input class="text-input" value="${state.fotografia.valor_exterior_usd}" oninput="state.fotografia.valor_exterior_usd=this.value" placeholder="Ex.: 500.000 (opcional)" />
+          </div>
+          <div>
+            <label class="field-label">Previdência Privada (PGBL/VGBL) em R$</label>
+            <input class="text-input" value="${state.fotografia.valor_previdencia_brl}" oninput="state.fotografia.valor_previdencia_brl=this.value" placeholder="Ex.: 800.000 (opcional)" />
+          </div>
+          <div>
+            <label class="field-label">Retirada mensal desejada da carteira (R$/mês)</label>
+            <input class="text-input" value="${state.fotografia.retirada_mensal_brl}" oninput="state.fotografia.retirada_mensal_brl=this.value" placeholder="Ex.: 25.000 (opcional)" />
+          </div>
+        </div>
+      `;
+    }
+
+    html += `
+      <div class="nav-row">
+        <button class="btn btn-outline" onclick="goToStep(${currentStep - 1})">&larr; Etapa Anterior</button>
+        <button class="btn btn-primary" onclick="goToStep(${currentStep + 1})">${currentStep === 5 ? 'Ver Resumo &amp; Concluir &rarr;' : 'Próxima Etapa &rarr;'}</button>
+      </div>
+    </div>`;
+    box.innerHTML = html;
+    return;
+  }
+
+  if (st.id === "result") {
+    const ev = evaluateEngine();
+    const jsonPayload = JSON.stringify(state, null, 2);
+    const compactPayload = "[ESTIMA_IPS_JSON_START]\n" + JSON.stringify(state) + "\n[ESTIMA_IPS_JSON_END]";
+    const clientName = state.cliente.nome || "Cliente Estima";
+    const subject = encodeURIComponent(`[DIAGNOSTICO-IPS-ESTIMA] ${clientName}`);
+    const bodyText = encodeURIComponent(
+      `Olá Luiz,\n\nSegue meu Diagnóstico Patrimonial preenchido para preparação da nossa Política de Investimentos (IPS).\n\n` +
+      `Cliente: ${clientName}\nPerfil Preliminar Calculado: ${ev.perfilEfetivo} (${ev.arquetipo})\n\n` +
+      compactPayload
+    );
+    const mailtoUrl = `mailto:luiz@estimaconsultoria.com.br?cc=lhrestima@gmail.com&subject=${subject}&body=${bodyText}`;
+    const waText = encodeURIComponent(
+      `Olá Luiz! Preenchi o Diagnóstico Patrimonial da Estima (${clientName}). Segue o código para geração do IPS:\n\n` + compactPayload
+    );
+    const waUrl = `https://wa.me/5551999136302?text=${waText}`;
+
+    const rowsAns = QUESTIONS.map(q => {
+      const a = state.respostas[q.code];
+      const letters = Array.isArray(a) ? a : [a];
+      const txts = letters.map(l => `<strong>${l})</strong> ${q.options[l] ? q.options[l].text : ''}`).join("<br/>");
+      return `<tr><td><strong>${q.code}</strong> — ${q.short_title}</td><td>${txts}</td></tr>`;
+    }).join("");
+
+    const saaRows = ev.saa.classes.map(c => `
+      <tr>
+        <td><strong>${c.nome}</strong></td>
+        <td>${c.bloco}</td>
+        <td><strong>${c.alvo}%</strong></td>
+        <td>${c.banda}</td>
+      </tr>
+    `).join("");
+
+    box.innerHTML = `
+      <div class="card">
+        <h2 class="sec-title">Diagnóstico Concluído com Sucesso</h2>
+        <div class="callout">
+          <strong>Obrigado, ${clientName}!</strong> Suas respostas já estão prontas. Escolha abaixo como prefere enviá-las ao Luiz Estima para que o seu documento de Política de Investimentos (IPS) seja pré-montado antes da reunião:
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin: 18px 0;">
+          <a class="btn btn-primary" href="${mailtoUrl}">1. Enviar por E-mail para Luiz Estima</a>
+          <a class="btn btn-bronze" href="${waUrl}" target="_blank">2. Enviar pelo WhatsApp</a>
+          <button class="btn btn-outline" onclick="downloadJson()">3. Baixar Arquivo de Respostas (.json)</button>
+          <button class="btn btn-outline" onclick="copyPayload()">Copiar Código das Respostas</button>
+        </div>
+        <p id="copyFeedback" style="color:var(--success); font-weight:600; font-size:13px;" class="hidden">Código copiado para a área de transferência!</p>
+
+        <h3 style="color:var(--navy); margin-top:24px;">Suas Respostas Registradas</h3>
+        <table class="summary-table">
+          <thead><tr><th style="width:32%">Tema</th><th>Sua Escolha</th></tr></thead>
+          <tbody>${rowsAns}</tbody>
+        </table>
+
+        <div style="margin-top:28px; padding-top:16px; border-top:2px dashed var(--border);">
+          <button class="btn btn-outline" onclick="showConsultantPreview=!showConsultantPreview; renderStep();">
+            ${showConsultantPreview ? 'Ocultar Prévia Técnica CFA (Modo Consultor)' : 'Ver Prévia Técnica CFA &amp; Bandas do IPS na Tela'}
+          </button>
+        </div>
+
+        <div class="${showConsultantPreview ? '' : 'hidden'}" style="margin-top:20px;">
+          <h3 style="color:var(--navy); font-family:Georgia,serif;">Prévia Automática do IPS (Padrão CFA Institute)</h3>
+          <div class="kpi-row">
+            <div class="kpi-box">
+              <div class="kpi-label">Capacidade Financeira</div>
+              <div class="kpi-val">${ev.capClass} (${ev.capSum}/24 pts)</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Disposição Psicológica</div>
+              <div class="kpi-val">${ev.dispClass} (${ev.dispSum}/18 pts)</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Perfil Efetivo (Menor Denominador)</div>
+              <div class="kpi-val">${ev.perfilEfetivo}</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label">Arquétipo Identificado</div>
+              <div class="kpi-val" style="font-size:16px;">${ev.arquetipo}</div>
+            </div>
+          </div>
+          ${ev.travas.length ? `<div class="callout"><strong>Travas de Segurança CFA Acionadas:</strong><br/>${ev.travas.join('<br/>')}</div>` : ''}
+          <table class="summary-table">
+            <thead><tr><th>Classe de Ativo (SAA Pré-Calibrada)</th><th>Jurisdição</th><th>Alvo</th><th>Banda</th></tr></thead>
+            <tbody>${saaRows}</tbody>
+          </table>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn btn-outline" onclick="goToStep(5)">&larr; Revisar Respostas</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function downloadJson() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  const slug = (state.cliente.nome || "cliente").toLowerCase().replace(/[^a-z0-9]+/g, "_");
+  a.href = URL.createObjectURL(blob);
+  a.download = `diagnostico_estima_${slug}.json`;
+  a.click();
+}
+
+function copyPayload() {
+  const compactPayload = "[ESTIMA_IPS_JSON_START]\n" + JSON.stringify(state) + "\n[ESTIMA_IPS_JSON_END]";
+  navigator.clipboard.writeText(compactPayload);
+  const el = document.getElementById("copyFeedback");
+  if (el) el.classList.remove("hidden");
+}
+
+renderNav();
+renderStep();
+</script>
+</body>
+</html>
